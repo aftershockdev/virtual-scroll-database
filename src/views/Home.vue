@@ -1,16 +1,10 @@
 <template>
-  <div class="wrapper">
-    <uiDatabase />
-  </div>
+  <div class="wrapper"></div>
 </template>
 
 <script>
-import uiDatabase from "@/components/uiDatabase/uiDatabase"
 export default {
-  name: "Home",
-  components: {
-    uiDatabase
-  }
+  name: "Home"
 }
 </script>
 <style lang="scss" scoped>
