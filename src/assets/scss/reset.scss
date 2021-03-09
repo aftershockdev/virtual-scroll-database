@@ -1,0 +1,51 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+html,
+body {
+  font-family: serif;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1;
+  font-size: 100%;
+}
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+a,
+input,
+button,
+textarea,
+select {
+  border: none;
+  display: inline-block;
+  font: inherit;
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+  background: unset;
+}
+input[type="text"] {
+  &:focus {
+    box-shadow: 1px 1px 15px 3px rgba(0, 0, 0, 0.1);
+  }
+}
+textarea {
+  &:focus {
+    box-shadow: 1px 1px 15px 3px rgba(0, 0, 0, 0.1);
+  }
+}
+button,
+a {
+  cursor: pointer;
+}
