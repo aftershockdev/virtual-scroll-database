@@ -28,15 +28,11 @@ export default {
         return "Done"
       }
       return "Unfinished"
-    },
-    getId() {
-      return this.indx + 1
     }
   },
   methods: {
     setPickedData() {
       this.$store.commit("database/selectDataElement", this.data.id)
-
       this.checked = !this.checked
     }
   }

@@ -1,14 +1,10 @@
 <template>
   <div class="info-base">
     <div class="header">
-      <button
-        v-if="checkedbase.length"
-        @click="removeDataElement"
-        class="delete"
-      >
+      <button v-if="checkedbase.length" class="delete">
         Delete
       </button>
-      <button @click="closeDataBase">
+      <button>
         <img src="@/assets/img/close.png" alt="" />
       </button>
     </div>
@@ -18,21 +14,16 @@
       <span class="info-title">Status</span>
     </div>
     <div
-      ref="base"
-      :style="{ height: rowHeight * visibleRows + 1 + 'px', overflow: 'auto' }"
+      :style="{ height: rowHeight * visibleRows + 1 + 'px' }"
       class="main-database"
       @scroll="onScroll($event)"
     >
       <div :style="{ height: getTopHeight + 'px' }"></div>
-      <rowDatabase
-        v-for="data in database.slice(
-          this.start,
-          this.start + this.visibleRows + 1
-        )"
-        :key="data.id"
-        :data="data"
-      />
+
+      <rowDatabase v-for="data in getVirtualData" :key="data.id" :data="data" />
+
       <div :style="{ height: getBottomHeight + 'px' }"></div>
+
       <Observer @intersect="intersected" />
     </div>
   </div>
@@ -69,7 +60,7 @@ export default {
         (this.database.length - (this.start + this.visibleRows + 1))
       )
     },
-    getSlicedData() {
+    getVirtualData() {
       return this.database.slice(this.start, this.start + this.visibleRows + 1)
     }
   },
@@ -77,8 +68,6 @@ export default {
     this.$store.dispatch("database/fetchDatabase", this.page++)
   },
   methods: {
-    closeDataBase() {},
-    removeDataElement() {},
     intersected() {
       this.$store.dispatch("database/fetchDatabase", this.page++)
     },
