@@ -65,7 +65,11 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit("database/initCurrentBase", this.$route.params.slug)
     this.$store.dispatch("database/fetchDatabase", this.page++)
+  },
+  beforeDestroy() {
+    this.$store.commit("database/destroyDatabase")
   },
   methods: {
     intersected() {

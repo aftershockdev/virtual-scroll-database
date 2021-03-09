@@ -1,7 +1,8 @@
 const state = () => ({
   database: [],
   checkedbase: [],
-  baseUrl: "https://jsonplaceholder.typicode.com/todos"
+  currentBase: "",
+  baseUrl: "https://jsonplaceholder.typicode.com"
 })
 const mutations = {
   initDatabase(state, data) {
@@ -10,6 +11,12 @@ const mutations = {
     } else {
       state.database = [...state.database, ...data]
     }
+  },
+  destroyDatabase(state) {
+    state.database = []
+  },
+  initCurrentBase(state, slug) {
+    state.currentBase = slug
   },
   selectDataElement(state, id) {
     const result = state.database.find(el => {
@@ -35,7 +42,9 @@ const mutations = {
 const actions = {
   async fetchDatabase({ commit, state }, page) {
     if (page <= 20) {
-      const res = await fetch(`${state.baseUrl}?_page=${page}`)
+      const res = await fetch(
+        `${state.baseUrl}/${state.currentBase}?_page=${page}`
+      )
       const data = await res.json()
       commit("initDatabase", data)
     }

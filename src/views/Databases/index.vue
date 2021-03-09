@@ -5,7 +5,7 @@
         class="database-link"
         v-for="(data, index) in databases"
         :key="index"
-        :to="`/databases/${data.slug}`"
+        :to="{ path: `/databases${data.slug}`, params: { desc: data.desc } }"
       >
         {{ data.title }}
       </router-link>

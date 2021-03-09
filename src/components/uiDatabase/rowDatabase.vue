@@ -1,7 +1,9 @@
 <template>
   <div class="info-row" @click="setPickedData" :class="{ active: checked }">
     <span class="info-title id">{{ data.id }}</span>
-    <span class="info-title desc">{{ data.title }}</span>
+    <span class="info-title desc">{{
+      data.title ? data.title : data.email ? data.email : null
+    }}</span>
     <span class="info-title status" :class="{ done: data.completed }">
       {{ getDataStatus }}
     </span>
