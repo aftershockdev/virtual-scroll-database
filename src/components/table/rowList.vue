@@ -1,16 +1,13 @@
 <template>
   <div class="info-base">
     <div class="header">
-      <button v-if="checkedbase.length" class="delete">
-        Delete
-      </button>
       <button>
         <img src="@/assets/img/close.png" alt="" />
       </button>
     </div>
     <div class="info-rows">
       <span class="info-title">ID</span>
-      <span class="info-title">Description Todo</span>
+      <span class="info-title">{{ table.name }}</span>
       <span class="info-title">Status</span>
     </div>
     <div
@@ -20,7 +17,7 @@
     >
       <div :style="{ height: getTopHeight + 'px' }"></div>
 
-      <rowDatabase v-for="data in getVirtualData" :key="data.id" :data="data" />
+      <row v-for="data in getVirtualData" :key="data.id" :data="data" />
 
       <div :style="{ height: getBottomHeight + 'px' }"></div>
 
@@ -31,24 +28,35 @@
 
 <script>
 import { mapState } from "vuex"
-import rowDatabase from "@/components/uiDatabase/rowDatabase"
+import row from "@/components/table/row"
 import Observer from "@/components/Observer"
 export default {
   components: {
-    rowDatabase,
+    row,
     Observer
+  },
+  props: {
+    table: {
+      type: Object,
+      required: true,
+      default: () => Object
+    },
+    visibleRows: {
+      type: Number,
+      required: true,
+      default: () => Number
+    }
   },
   data() {
     return {
-      page: 1,
+      page: 2,
       start: 0,
-      rowHeight: 31,
-      visibleRows: 15
+      rowHeight: 31
+      // visibleRows: 15
     }
   },
   computed: {
     ...mapState({
-      database: state => state.database.database,
       checkedbase: state => state.database.checkedbase
     }),
     getTopHeight() {
@@ -57,27 +65,30 @@ export default {
     getBottomHeight() {
       return (
         this.rowHeight *
-        (this.database.length - (this.start + this.visibleRows + 1))
+        (this.table.data.length - (this.start + this.visibleRows + 1))
       )
     },
     getVirtualData() {
-      return this.database.slice(this.start, this.start + this.visibleRows + 1)
+      return this.table.data.slice(
+        this.start,
+        this.start + this.visibleRows + 1
+      )
     }
-  },
-  mounted() {
-    this.$store.commit("database/initCurrentBase", this.$route.params.slug)
-    this.$store.dispatch("database/fetchDatabase", this.page++)
   },
   beforeDestroy() {
     this.$store.commit("database/destroyDatabase")
   },
   methods: {
     intersected() {
-      this.$store.dispatch("database/fetchDatabase", this.page++)
+      const params = {
+        name: this.table.name,
+        page: this.page++
+      }
+      this.$store.dispatch("database/fetchDatabase", params)
     },
     onScroll(e) {
       this.start = Math.min(
-        this.database.length - this.visibleRows - 1,
+        this.table.data.length - this.visibleRows - 1,
         Math.floor(e.target.scrollTop / this.rowHeight)
       )
     }

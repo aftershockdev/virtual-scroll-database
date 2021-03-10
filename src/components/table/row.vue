@@ -1,5 +1,5 @@
 <template>
-  <div class="info-row" @click="setPickedData" :class="{ active: checked }">
+  <div class="info-row">
     <span class="info-title id">{{ data.id }}</span>
     <span class="info-title desc">{{
       data.title ? data.title : data.email ? data.email : null
@@ -32,12 +32,7 @@ export default {
       return "Unfinished"
     }
   },
-  methods: {
-    setPickedData() {
-      this.$store.commit("database/selectDataElement", this.data.id)
-      this.checked = !this.checked
-    }
-  }
+  methods: {}
 }
 </script>
 
